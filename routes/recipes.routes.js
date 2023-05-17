@@ -3,8 +3,20 @@ const Recipe = require('../models/Recipe.model')
 const router = require('express').Router()
 
 router.get('/', async (req, res, next) => {
+  const { search, cheese } = req.query
   try {
-    const allRecipes = await Recipe.find()
+    let filter = {}
+    if (search) {
+      filter = { title: { $regex: search, $options: 'i' } }
+    }
+    if (cheese) {
+      filter.ingredients = { $in: ['cheese'] }
+    } else {
+      filter.ingredients = { $nin: ['cheese'] }
+    }
+
+    console.log(filter)
+    const allRecipes = await Recipe.find(filter)
     res.status(200).json(allRecipes)
   } catch (error) {
     console.log(error)

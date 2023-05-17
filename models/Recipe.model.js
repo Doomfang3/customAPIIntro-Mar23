@@ -14,10 +14,6 @@ const recipeSchema = new Schema(
       type: [String],
       required: true,
     },
-    directions: {
-      type: [String],
-      required: true,
-    },
     type: {
       type: String,
       enum: ['Omnivore', 'Vegetarian', 'Vegan'],
